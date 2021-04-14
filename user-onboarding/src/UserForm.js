@@ -7,7 +7,7 @@ export default function UserForm({ details }) {
 
     return (
         <div className='user container'>
-            <h2>{details.username}</h2>
+            <h2>Username:{details.username}</h2>
             <p>Role: {details.role}</p>
             <p>Email: {details.email}</p>
             <p>Password: {details.password}</p>

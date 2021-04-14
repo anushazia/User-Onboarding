@@ -18,6 +18,7 @@ const initialFormErrors = {
   username: '',
   email: '',
   password: '',
+  terms: false
 }
 
 const initialUsers = [];
