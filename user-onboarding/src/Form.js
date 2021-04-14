@@ -1,30 +1,95 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import * as Yup from 'yup';
-import axios from 'axios';
 
-export default function Form() {
-     const [formState, setFormState] = useState({
-          name: '',
-          email: '',
-          password: '',
-          terms: true,
-     })
+export default function Form(props) {
+    const {
+        values,
+        submit,
+        change,
+        disabled,
+        errors,
+    } = props
 
-     const [users, setUsers] = useState();
+    const onSubmit = event => {
+        event.preventDefault()
+        submit()
+    }
 
-     const formSubmit = (event) => {
-         event.preventDefault();
-         axios
-         .post("https://reqres.in/api/users", formState)
-         .then((response) => {
-             setUsers(response.data);
-         })
-         .catch((error) => console.log("error"));
-     }
+    const onChange = event => {
+        const { name, value, checked, type } = event.target
+        const valueToUse = type === 'checkbox' ? checked : value
+        change(name, valueToUse)
+    }
 
+    return (
+        <form className='form container' onSubmit={onSubmit}>
 
+            <div className='form-group inputs'>
+                <h2>General information</h2>
+                <label>Username&nbsp;
+            <input
+                name='username'
+                type='text'
+                value={values.username}
+                onChange={onChange}
+            />    
+                </label>
+                <br></br>
+                <label>Your Role:
+                        <select
+                        name='role'
+                        value={values.role}
+                        onChange={onChange}
+                    >
+                        <option value=''>- Select an option -</option>
+                        <option value='student'>Student</option>
+                        <option value='alumni'>Alumni</option>
+                        <option value='instructor'>Instructor</option>
+                        <option value='tl'>Team Lead</option>
+                    </select>
+                </label>
+                <br></br>
+                <label> Your Email:
+            <input
+                        name='email'
+                        type='text'
+                        value={values.email}
+                        onChange={onChange}
+                    />
+                </label>
+                <br></br>
+                <label>Password:
+            <input
+                        name='password'
+                        type='text'
+                        value={values.password}
+                        onChange={onChange}
+                    />
+                </label>
+                <br></br>
+                <label>Terms of Service
+            <input
+                        name='terms'
+                        type='checkbox'
+                        value={values.terms}
+                        onChange={onChange}
+                    />
+                </label>
+            </div>
+            <div className='form-group submit'>
+                <h2>Add New User</h2>
 
+                <button disabled={disabled}>submit</button>
+
+                <div className='errors' >
+                    <div>{errors.username}</div>
+                    <div>{errors.email}</div>
+                    <div>{errors.password}</div>
+                    <div>{errors.terms}</div>
+                </div>
+
+            </div>
+        </form>
+    )
 }
 
    
